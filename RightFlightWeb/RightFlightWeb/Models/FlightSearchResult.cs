@@ -7,6 +7,8 @@ namespace RightFlightWeb.Models
 {
     public class FlightSearchResult
     {
+        public int FlightId { get; set; }
+
         public AirportDto Origin { get; set; }
 
         public AirportDto Destination { get; set; }
@@ -34,5 +36,7 @@ namespace RightFlightWeb.Models
         public string AircraftType { get; set; }
 
         public List<TicketPrice> TicketPrices { get; set; }
+
+        public List<TravelClassDto> TravelClasses { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RightFlightWeb.EntityModel;
 using RightFlightWeb.Models;
 
@@ -35,6 +36,11 @@ namespace RightFlightWeb.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(string originCode, string destinationCode, int adults, int children, int infants, DateTime date)
         {
+            if (!ModelState.IsValid)
+            {
+                RedirectToAction("Search");
+            }
+
             IQueryable<FlightSearchResult> searchQuery =
                 _db.Flight
                 .Where(f =>
@@ -56,7 +62,7 @@ namespace RightFlightWeb.Controllers
                     .ThenInclude(r => r.Destination)
                     .ThenInclude(d => d.City)
                     .ThenInclude(c => c.Country)
-                .Select(f => Mapper.FlightToSearchResult(f));
+                .Select(f => Mapper.FlightToSearchResult(f, adults, children, infants));
 
             FlightSearchViewModel viewModel = new FlightSearchViewModel
             {
@@ -68,6 +74,11 @@ namespace RightFlightWeb.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public IActionResult Book(int flightId, int adults, int children, int infants)
+        {
+            return NotFound();
         }
     }
 }

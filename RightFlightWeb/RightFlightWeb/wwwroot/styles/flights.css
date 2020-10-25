@@ -180,7 +180,6 @@ main {
     }
 
 .label {
-    margin-bottom: 2px;
     font-size: 1.2em;
     font-family: Oxygen;
     font-weight: bold;
@@ -189,34 +188,116 @@ main {
 .grid-container {
     display: grid;
     grid-template-columns: 5fr 2fr 3fr;
-    row-gap: 6px;
+    row-gap: 2px;
 }
 
-.origin {
+.origin-label {
     grid-row-start: 2;
 }
 
-.destination {
+.destination-label {
+    grid-row-start: 4;
+}
+
+.origin {
     grid-row-start: 3;
+    align-self: center;
+    margin-bottom: 8px;
+}
+
+.destination {
+    grid-row-start: 5;
+    align-self: center;
+    margin-bottom: 8px;
 }
 
 .departure-time {
     grid-column-start: 2;
-    grid-row-start: 2;
+    grid-row-start: 3;
     align-self: center;
 }
 
 .arrival-time {
     grid-column-start: 2;
-    grid-row-start: 3;
+    grid-row-start: 5;
     align-self: center;
 }
 
-.card-right-panel {
+.flight-duration {
+    grid-row-start: 6;
+    font-style: italic;
+    margin-bottom: 8px;
+}
+
+.right-panel {
     grid-column-start: 3;
-    grid-row: span 4;
+    grid-row: span 6;
     text-align: right;
 }
+
+.bottom-panel {
+    grid-row-start: 7;
+    grid-column: span 3;
+    display: flex;
+    width: 100%;
+}
+
+.ticket-price-group {
+    width: 85%;
+}
+
+.book-group {
+    width: 150px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+select {
+    font-family: Calibri;
+    font-size: 1.2em;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.ticket-price {
+    display: inline-block;
+    padding-right: 24px;
+}
+
+.travel-class {
+    font-family: Bitter;
+    font-size: 1.6em;
+    text-align: center;
+}
+
+.amount {
+    font-family: 'Lora';
+    font-size: 2.2em;
+    font-weight: 600;
+    text-align: center;
+}
+
+.book-button {
+    height: 50px;
+    color: white;
+    font-family: Oxygen;
+    font-size: 1.4em;
+    background-color: rgb(40, 115, 230);
+    padding: 6px 0px;
+    border: 1px solid white;
+    border-radius: 8px;
+    outline: none;
+}
+
+    .book-button:hover {
+        background-color: rgb(75, 140, 240);
+        cursor: pointer;
+    }
+
+    .book-button:active {
+        border: 2px solid rgb(25, 90, 185);
+    }
 
 .airline-logo {
     width: 100%;

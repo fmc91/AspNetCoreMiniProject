@@ -25,14 +25,6 @@ namespace RightFlightWeb
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder =>
-                {
-                    builder.WithOrigins("http://127.0.0.1:5500");
-                });
-            });
-
             services.AddDbContext<FlightReservationContext>();
             services.AddMvc();
         }
@@ -49,8 +41,6 @@ namespace RightFlightWeb
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseCors();
 
             app.UseAuthorization();
 

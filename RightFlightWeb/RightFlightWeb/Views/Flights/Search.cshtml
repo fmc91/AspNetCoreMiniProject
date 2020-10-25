@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SearchView</title>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Oxygen&display=swap" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Oxygen&family=Bitter&family=Lora:wght@600&display=swap"/>
     <link rel="stylesheet" href="~/styles/flights.css" />
 </head>
 
@@ -86,13 +86,46 @@
                             <div class="text-small">@Html.DisplayFor(model => sr.Destination.City), @Html.DisplayFor(model => sr.Destination.Country)</div>
                         </div>
 
+                        <div class="flight-duration text-medium">@((int)sr.FlightDuration.TotalHours) hours @sr.FlightDuration.Minutes minutes</div>
+
                         <div class="text-huge departure-time">@Html.DisplayFor(model => sr.DepartureTime)</div>
                         <div class="text-huge arrival-time">@Html.DisplayFor(model => sr.ArrivalTime)</div>
-                        <div class="card-right-panel">
+                        <div class="right-panel">
                             <img class="airline-logo" src=@("logos/" + sr.AirlineLogoFilename) />
                             <div class="text-large it">@Html.DisplayFor(model => sr.Airline)</div>
                             <div class="text-medium">@Html.DisplayFor(model => sr.FlightNumber)</div>
                             <div class="text-medium">@Html.DisplayFor(model => sr.AircraftType)</div>
+                        </div>
+
+                        <div class="bottom-panel">
+                            <div class="ticket-price-group">
+
+                                @foreach (TicketPrice tp in sr.TicketPrices)
+                                {
+                                    <div class="ticket-price">
+                                        <div class="travel-class">@Html.DisplayFor(model => tp.TravelClass)</div>
+                                        <div class="amount">@Html.DisplayFor(model => tp.Amount)</div>
+                                    </div>
+                                }
+
+                            </div>
+                            <div>
+                                <form asp-controller="Flights" asp-action="Book" method="get">
+                                    <input type="hidden" name="adults" value="@Model.Adults" />
+                                    <input type="hidden" name="children" value="@Model.Children" />
+                                    <input type="hidden" name="infants" value="@Model.Infants" />
+                                    <input type="hidden" name="flightId" value="@sr.FlightId" />
+                                    <div class="book-group">
+                                        <select name="travelClass">
+                                            @foreach (TravelClassDto tc in sr.TravelClasses)
+                                            {
+                                                <option value="@tc.TravelClassCode">@tc.TravelClassName</option>
+                                            }
+                                        </select>
+                                        <input type="submit" class="book-button" value="Book" />
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>

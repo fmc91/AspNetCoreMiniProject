@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RightFlightWeb
+namespace RightFlightWeb.Services
 {
-    public static class TimeService
+    public static class ArrivalTimeService
     {
-        public static DateTime CalculateArrivalTime(DateTime departureTime, int flightDuration, string originTimeZoneKey, string destinationTimeZoneKey)
+        public static DateTime Calculate(DateTime departureTime, int flightDuration, string originTimeZoneKey, string destinationTimeZoneKey)
         {
             DateTime arrivalTimeInOriginTimeZone = departureTime + TimeSpan.FromMinutes(flightDuration);
 
