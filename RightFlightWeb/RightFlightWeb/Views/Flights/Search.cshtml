@@ -1,0 +1,105 @@
+﻿@model RightFlightWeb.Models.FlightSearchViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SearchView</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Oxygen&display=swap" />
+    <link rel="stylesheet" href="~/styles/flights.css" />
+</head>
+
+    <body>
+        <header>
+            <div class="site-name">RightFlight</div>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="main-heading">Search for Flights</div>
+
+                <form asp-controller="Flights" asp-action="Search" method="post">
+                    <div id="origin" class="location-search">
+                        <div class="label-input">From:</div>
+                        <input type="hidden" id="selected-origin-code" asp-for="OriginCode" />
+                        <div id="selected-origin" class="selected-endpoint hidden"></div>
+                        <div id="origin-search">
+                            <input type="text" id="origin-search-input" class="search-input" placeholder="Enter name of city or airport..." />
+                            <ul class="location-results hidden" id="origin-results"></ul>
+                        </div>
+                    </div>
+
+                    <div id="destination" class="location-search">
+                        <div class="label-input">To:</div>
+                        <input type="hidden" id="selected-destination-code" asp-for="DestinationCode" />
+                        <div id="selected-destination" class="selected-endpoint hidden"></div>
+                        <div id="destination-search">
+                            <input type="text" id="destination-search-input" class="search-input" placeholder="Enter name of city or airport..." />
+                            <ul class="location-results hidden" id="destination-results"></ul>
+                        </div>
+                    </div>
+
+                    <div class="flex">
+                        <div class="passenger-input-group">
+                            <div class="label-input">Adults:</div>
+                            <input type="number" class="passenger-input" asp-for="Adults" />
+                        </div>
+                        <div class="passenger-input-group">
+                            <div class="label-input">Children:</div>
+                            <input type="number" class="passenger-input" asp-for="Children" />
+                        </div>
+                        <div class="passenger-input-group">
+                            <div class="label-input">Infants:</div>
+                            <input type="number" class="passenger-input" asp-for="Infants" />
+                        </div>
+                        <div class="date-input-group">
+                            <div class="label-input">Departure Date:</div>
+                            <input type="date" class="date-input" asp-for="Date" />
+                        </div>
+                        <input type="submit" class="submit-button" value="Search" />
+                    </div>
+                </form>
+            </div>
+
+            @foreach (FlightSearchResult sr in Model.SearchResults)
+            {
+                <div class="card">
+                    <div class="grid-container">
+                        <div class="text-large date">@Html.DisplayFor(model => sr.Date)</div>
+
+                        <div class="origin">
+                            <div class="label">From:</div>
+                            <div class="text-medium">@Html.DisplayFor(model => sr.Origin.Name) (@Html.DisplayFor(model => sr.Origin.IataCode))</div>
+                            <div class="text-small">@Html.DisplayFor(model => sr.Origin.City), @Html.DisplayFor(model => sr.Origin.Country)</div>
+                        </div>
+
+                        <div class="destination">
+                            <div class="label">To:</div>
+                            <div class="text-medium">@Html.DisplayFor(model => sr.Destination.Name) (@Html.DisplayFor(model => sr.Destination.IataCode))</div>
+                            <div class="text-small">@Html.DisplayFor(model => sr.Destination.City), @Html.DisplayFor(model => sr.Destination.Country)</div>
+                        </div>
+
+                        <div class="text-huge departure-time">@Html.DisplayFor(model => sr.DepartureTime)</div>
+                        <div class="text-huge arrival-time">@Html.DisplayFor(model => sr.ArrivalTime)</div>
+                        <div class="card-right-panel">
+                            <img class="airline-logo" src=@("logos/" + sr.AirlineLogoFilename) />
+                            <div class="text-large it">@Html.DisplayFor(model => sr.Airline)</div>
+                            <div class="text-medium">@Html.DisplayFor(model => sr.FlightNumber)</div>
+                            <div class="text-medium">@Html.DisplayFor(model => sr.AircraftType)</div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </main>
+
+        <script src="~/scripts/flights.js"></script>
+    </body>
+</html>

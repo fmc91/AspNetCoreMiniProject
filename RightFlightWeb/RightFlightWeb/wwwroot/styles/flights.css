@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0px;
+    background-image: url("https://images.pexels.com/photos/62623/wing-plane-flying-airplane-62623.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260");
+    background-size: cover;
+}
+
+header {
+    background: linear-gradient(to bottom, rgb(15, 95, 195), rgb(15, 75, 145));
+}
+
+main {
+    max-width: 1050px;
+    min-width: 600px;
+    margin: auto;
+}
+
+.hidden {
+    display: none;
+}
+
+.site-name {
+    padding: 10px;
+    font-size: 3.4em;
+    font-family: Montserrat;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+}
+
+.card {
+    padding: 16px 32px;
+    margin: 16px 0px;
+    background: linear-gradient(to bottom right, rgb(225, 225, 225), rgb(210, 210, 210));
+    border-radius: 12px;
+}
+
+.main-heading {
+    font-size: 2.2em;
+    font-family: Oxygen;
+    padding: 6px 0px;
+}
+
+.location-search {
+    display: inline-block;
+    vertical-align: top;
+    width: calc(50% - 10px);
+    margin-bottom: 8px;
+}
+
+#origin {
+    margin-right: 8px;
+}
+
+#destination {
+    margin-left: 8px;
+}
+
+.label-input {
+    margin-bottom: 6px;
+    font-size: 1.2em;
+    font-family: Oxygen;
+    font-weight: bold;
+}
+
+.search-input {
+    font-size: 1.2em;
+    width: 100%;
+    padding: 4px;
+    border: 1px solid black;
+    border-radius: 8px;
+    outline: none;
+}
+
+.location-results {
+    padding: 0px 10px;
+    background-color: rgb(245, 245, 245);
+    border: 2px solid rgb(115, 115, 115);
+    border-radius: 6px;
+    list-style-type: none;
+}
+
+.location-result {
+    padding: 4px 0px;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    user-select: none;
+}
+
+    .location-result:hover {
+        background-color: rgb(215, 215, 215);
+    }
+
+    .location-result:last-child {
+        border-bottom: none;
+    }
+
+.text-huge {
+    font-size: 2.4em;
+    font-family: Oxygen;
+}
+
+.text-large {
+    font-size: 1.6em;
+    font-family: Oxygen;
+}
+
+.text-medium {
+    font-size: 1.4em;
+    font-family: Oxygen;
+}
+
+.text-small {
+    font-size: 1em;
+    font-family: Oxygen;
+}
+
+.it {
+    font-style: italic;
+}
+
+.change-link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 3px 0px;
+    font-family: Oxygen;
+}
+
+.flex {
+    display: flex;
+}
+
+.passenger-input-group {
+    margin-right: 8px;
+    flex-basis: 20%;
+    flex: 1;
+}
+
+.date-input-group {
+    flex-basis: 20%;
+    flex: 1;
+}
+
+.passenger-input {
+    font-size: 1.2em;
+    width: 100%;
+}
+
+.date-input {
+    font-family: Helvetica;
+    font-size: 1.2em;
+}
+
+.submit-button {
+    align-self: flex-end;
+    max-width: 140px;
+    height: 50px;
+    flex: 1;
+    color: white;
+    font-family: Oxygen;
+    font-size: 1.4em;
+    background-color: rgb(55, 195, 35);
+    padding: 6px 0px;
+    border: 1px solid white;
+    border-radius: 8px;
+    outline: none;
+}
+
+    .submit-button:hover {
+        background-color: rgb(80, 220, 60);
+        cursor: pointer;
+    }
+
+    .submit-button:active {
+        border: 2px solid rgb(40, 165, 25);
+    }
+
+.label {
+    margin-bottom: 2px;
+    font-size: 1.2em;
+    font-family: Oxygen;
+    font-weight: bold;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 5fr 2fr 3fr;
+    row-gap: 6px;
+}
+
+.origin {
+    grid-row-start: 2;
+}
+
+.destination {
+    grid-row-start: 3;
+}
+
+.departure-time {
+    grid-column-start: 2;
+    grid-row-start: 2;
+    align-self: center;
+}
+
+.arrival-time {
+    grid-column-start: 2;
+    grid-row-start: 3;
+    align-self: center;
+}
+
+.card-right-panel {
+    grid-column-start: 3;
+    grid-row: span 4;
+    text-align: right;
+}
+
+.airline-logo {
+    width: 100%;
+}
