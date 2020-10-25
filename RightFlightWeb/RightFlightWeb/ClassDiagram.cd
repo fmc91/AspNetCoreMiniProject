@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RightFlightWeb.Program">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Startup">
+    <Position X="0.5" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAgAAACAAAAAA=</HashCode>
+      <FileName>Startup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Controllers.FlightsController">
+    <Position X="3.75" Y="0.5" Width="2.25" />
+    <AssociationLine Name="_db" Type="RightFlightWeb.EntityModel.FlightReservationContext">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="0.143" Y="-0.34" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Controllers\FlightsController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RightFlightWeb.Controllers.AirportController">
+    <Position X="3.75" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Controllers\AirportController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_db" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="RightFlightWeb.EntityModel.FlightReservationContext" Collapsed="true">
+    <Position X="3.75" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QCAAAAABAQAQAAIIAEAAAAAAEAJAAQAAAAAAAAAAqAA=</HashCode>
+      <FileName>EntityModel\FlightReservationContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Services.ArrivalTimeService">
+    <Position X="0.5" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ArrivalTimeService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Services.TicketPriceService">
+    <Position X="0.5" Y="6" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\TicketPriceService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Mapper">
+    <Position X="0.5" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mapper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Models.FlightSearchViewModel">
+    <Position X="7.25" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAABAAAAEAAAAAAAAAAABAAACAAEAAAI=</HashCode>
+      <FileName>Models\FlightSearchViewModel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="SearchResults" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="RightFlightWeb.Models.FlightSearchResult">
+    <Position X="7.25" Y="3" Width="2.25" />
+    <AssociationLine Name="Origin" Type="RightFlightWeb.Models.AirportDto" FixedFromPoint="true">
+      <Path>
+        <Point X="8.125" Y="5.642" />
+        <Point X="8.125" Y="6.5" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Destination" Type="RightFlightWeb.Models.AirportDto" FixedFromPoint="true">
+      <Path>
+        <Point X="8.812" Y="5.642" />
+        <Point X="8.812" Y="6.5" />
+      </Path>
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-1.107" Y="0.127" />
+      </MemberNameLabel>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>YAAAgAAAAAAAAAIAAAAAkAAAECBAAAAFQAAAAAgAAAA=</HashCode>
+      <FileName>Models\FlightSearchResult.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Origin" />
+      <Property Name="Destination" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="TravelClasses" />
+      <Property Name="TicketPrices" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="RightFlightWeb.Models.AirportDto">
+    <Position X="7.25" Y="6.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAAAIAAAAAAQAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AirportDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Models.TravelClassDto">
+    <Position X="10.75" Y="3" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TravelClassDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RightFlightWeb.Models.TicketPrice">
+    <Position X="10.75" Y="4.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAACAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\TicketPrice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
