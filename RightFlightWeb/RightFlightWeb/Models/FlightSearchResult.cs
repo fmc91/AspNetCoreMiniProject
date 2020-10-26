@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace RightFlightWeb.Models
 {
-    public class FlightSearchResult
+    public class FlightInformation
     {
         public int FlightId { get; set; }
 

@@ -13,7 +13,7 @@
             <input type="hidden" id="selected-origin-code" asp-for="OriginCode" />
             <div id="selected-origin" class="selected-endpoint hidden"></div>
             <div id="origin-search">
-                <input type="text" id="origin-search-input" class="search-input" placeholder="Enter name of city or airport..." />
+                <input type="text" id="origin-search-input" class="text-input" placeholder="Enter name of city or airport..." />
                 <ul class="location-results hidden" id="origin-results"></ul>
             </div>
         </div>
@@ -23,7 +23,7 @@
             <input type="hidden" id="selected-destination-code" asp-for="DestinationCode" />
             <div id="selected-destination" class="selected-endpoint hidden"></div>
             <div id="destination-search">
-                <input type="text" id="destination-search-input" class="search-input" placeholder="Enter name of city or airport..." />
+                <input type="text" id="destination-search-input" class="text-input" placeholder="Enter name of city or airport..." />
                 <ul class="location-results hidden" id="destination-results"></ul>
             </div>
         </div>
@@ -50,7 +50,7 @@
     </form>
 </div>
 
-@foreach (FlightSearchResult sr in Model.SearchResults)
+@foreach (FlightInformation sr in Model.SearchResults)
 {
     <div class="card">
         <div class="grid-container">
@@ -98,7 +98,7 @@
                         <input type="hidden" name="infants" value="@Model.Infants" />
                         <input type="hidden" name="flightId" value="@sr.FlightId" />
                         <div class="book-group">
-                            <select name="travelClass">
+                            <select name="travelClassCode">
                                 @foreach (TravelClassDto tc in sr.TravelClasses)
                                 {
                                     <option value="@tc.TravelClassCode">@tc.TravelClassName</option>

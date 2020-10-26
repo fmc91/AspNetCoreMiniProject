@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using RightFlightWeb.EntityModel;
 using RightFlightWeb.Models;
+using RightFlightWeb.Services;
 
 namespace RightFlightWeb.Controllers
 {
@@ -27,7 +28,7 @@ namespace RightFlightWeb.Controllers
                 Children = 0,
                 Infants = 0,
                 Date = DateTime.Today,
-                SearchResults = new List<FlightSearchResult>()
+                SearchResults = new List<FlightInformation>()
             };
 
             return View(viewModel);
@@ -41,7 +42,7 @@ namespace RightFlightWeb.Controllers
                 RedirectToAction("Search");
             }
 
-            IQueryable<FlightSearchResult> searchQuery =
+            List<FlightInformation> searchResults = await
                 _db.Flight
                 .Where(f =>
                     f.RouteAircraft.Route.OriginAirportCode == originCode &&
@@ -62,7 +63,8 @@ namespace RightFlightWeb.Controllers
                     .ThenInclude(r => r.Destination)
                     .ThenInclude(d => d.City)
                     .ThenInclude(c => c.Country)
-                .Select(f => Mapper.FlightToSearchResult(f, adults, children, infants));
+                .Select(f => FlightInformationService.GetFlightInformation(f, adults, children, infants))
+                .ToListAsync();
 
             FlightSearchViewModel viewModel = new FlightSearchViewModel
             {
@@ -70,15 +72,72 @@ namespace RightFlightWeb.Controllers
                 Children = children,
                 Infants = infants,
                 Date = date,
-                SearchResults = await searchQuery.ToListAsync()
+                SearchResults = searchResults
             };
 
             return View(viewModel);
         }
 
-        public IActionResult Book(int flightId, int adults, int children, int infants)
+        public async Task<IActionResult> Book(int flightId, string travelClassCode, int adults, int children, int infants)
         {
-            return NotFound();
+            if (!FlightExists(flightId))
+                return NotFound();
+
+            FlightInformation flightInformation = await
+                _db.Flight
+                .Where(f => f.FlightId == flightId)
+                .Include(f => f.RouteAircraft)
+                    .ThenInclude(ra => ra.Route)
+                    .ThenInclude(r => r.Airline)
+                .Include(f => f.RouteAircraft)
+                    .ThenInclude(ra => ra.Aircraft)
+                .Include(f => f.RouteAircraft)
+                    .ThenInclude(ra => ra.Route)
+                    .ThenInclude(r => r.Origin)
+                    .ThenInclude(o => o.City)
+                    .ThenInclude(c => c.Country)
+                .Include(f => f.RouteAircraft)
+                    .ThenInclude(ra => ra.Route)
+                    .ThenInclude(r => r.Destination)
+                    .ThenInclude(d => d.City)
+                    .ThenInclude(c => c.Country)
+                .Select(f => FlightInformationService.GetFlightInformation(f, adults, children, infants))
+                .SingleAsync();
+
+            TravelClassDto travelClass = await
+                _db.TravelClass
+                .Where(tc => tc.TravelClassCode == travelClassCode)
+                .Select(tc => Mapper.TravelClassToDto(tc))
+                .SingleAsync();
+
+            List<NationalityDto> nationalities = await
+                _db.Nationality
+                .Select(n => Mapper.NationalityToDto(n))
+                .ToListAsync();
+
+            BookFlightViewModel viewModel = new BookFlightViewModel
+            {
+                FlightInformation = flightInformation,
+                Passengers = new List<PassengerDto>(),
+                TravelClass = travelClass,
+                Nationalities = nationalities
+            };
+
+            for (int i = 0; i < adults; i++)
+                viewModel.Passengers.Add(new PassengerDto { AgeBracket = AgeBracket.Adult, DateOfBirth = DateTime.Today });
+
+            for (int i = 0; i < children; i++)
+                viewModel.Passengers.Add(new PassengerDto { AgeBracket = AgeBracket.Child, DateOfBirth = DateTime.Today });
+
+            for (int i = 0; i < infants; i++)
+                viewModel.Passengers.Add(new PassengerDto { AgeBracket = AgeBracket.Infant, DateOfBirth = DateTime.Today });
+
+            return View(viewModel);
+        }
+
+        private bool FlightExists(int flightId)
+        {
+            return _db.Flight.Find(flightId) != null;
         }
     }
 }

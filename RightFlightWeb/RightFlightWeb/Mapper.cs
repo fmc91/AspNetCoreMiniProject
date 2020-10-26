@@ -21,33 +21,21 @@ namespace RightFlightWeb
             };
         }
 
-        public static FlightSearchResult FlightToSearchResult(Flight flight, int adults, int children, int infants)
+        public static TravelClassDto TravelClassToDto(TravelClass travelClass)
         {
-            string originTimeZoneKey = flight.RouteAircraft.Route.Origin.City.TimeZone;
-            string destinationTimeZoneKey = flight.RouteAircraft.Route.Destination.City.TimeZone;
-
-            List<ClassPricingScheme> pricingSchemes =
-                JsonConvert.DeserializeObject<List<ClassPricingScheme>>(flight.RouteAircraft.Route.PricingScheme);
-
-            return new FlightSearchResult
+            return new TravelClassDto
             {
-                FlightId = flight.FlightId,
-                Origin = AirportToDto(flight.RouteAircraft.Route.Origin),
-                Destination = AirportToDto(flight.RouteAircraft.Route.Destination),
-                Airline = flight.RouteAircraft.Route.Airline.Name,
-                AirlineLogoFilename = flight.RouteAircraft.Route.Airline.LogoFilename,
-                Date = flight.ScheduledDeparture.Date,
-                DepartureTime = flight.ScheduledDeparture.TimeOfDay,
-                ArrivalTime = ArrivalTimeService.Calculate(flight.ScheduledDeparture, flight.RouteAircraft.FlightDuration, originTimeZoneKey, destinationTimeZoneKey).TimeOfDay,
-                FlightDuration = TimeSpan.FromMinutes(flight.RouteAircraft.FlightDuration),
-                FlightNumber = flight.FlightNumber,
-                AircraftType = flight.RouteAircraft.Aircraft.Model,
-                TicketPrices = TicketPriceService.Calculate(pricingSchemes, adults, children, infants),
-                TravelClasses = pricingSchemes.Select(ps => new TravelClassDto
-                {
-                    TravelClassCode = ps.TravelClassCode,
-                    TravelClassName = ps.TravelClassName
-                }).ToList()
+                TravelClassCode = travelClass.TravelClassCode,
+                TravelClassName = travelClass.Name
+            };
+        }
+
+        public static NationalityDto NationalityToDto(Nationality nationality)
+        {
+            return new NationalityDto
+            {
+                NationalityId = nationality.NationalityId,
+                CountryName = nationality.CountryName
             };
         }
     }

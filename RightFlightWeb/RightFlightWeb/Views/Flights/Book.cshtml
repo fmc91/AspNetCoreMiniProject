@@ -1,0 +1,83 @@
+﻿@model RightFlightWeb.Models.BookFlightViewModel
+
+@{
+    ViewData["Title"] = "Book a Flight";
+}
+
+<div class="card">
+    <div class="grid-container">
+        <div class="text-large date">@Html.DisplayFor(model => model.FlightInformation.Date)</div>
+
+        <div class="label origin-label">From:</div>
+        <div class="origin">
+            <div class="text-medium">@Model.FlightInformation.Origin.Name (@Model.FlightInformation.Origin.IataCode)</div>
+            <div class="text-small">@Model.FlightInformation.Origin.City, @Model.FlightInformation.Origin.Country</div>
+        </div>
+
+        <div class="label destination-label">To:</div>
+        <div class="destination">
+            <div class="text-medium">@Model.FlightInformation.Destination.Name (@Model.FlightInformation.Destination.IataCode)</div>
+            <div class="text-small">@Model.FlightInformation.Destination.City, @Model.FlightInformation.Destination.Country</div>
+        </div>
+
+        <div class="flight-duration text-medium">@((int)Model.FlightInformation.FlightDuration.TotalHours) hours @Model.FlightInformation.FlightDuration.Minutes minutes</div>
+
+        <div class="text-huge departure-time">@Html.DisplayFor(model => model.FlightInformation.DepartureTime)</div>
+        <div class="text-huge arrival-time">12:30</div>
+        <div class="right-panel">
+            <img class="airline-logo" src="@("https://localhost:5001/logos/" + Model.FlightInformation.AirlineLogoFilename)" />
+            <div class="text-large it">@Html.DisplayFor(model => model.FlightInformation.Airline)</div>
+            <div class="text-medium">@Html.DisplayFor(model => model.FlightInformation.FlightNumber)</div>
+            <div class="text-medium">@Html.DisplayFor(model => model.FlightInformation.AircraftType)</div>
+            <div class="travel-class-booking">@Html.DisplayFor(model => model.TravelClass.TravelClassName)</div>
+        </div>
+    </div>
+</div>
+
+<form asp-controller="Flights" asp-action="Book" method="post">
+    @for (int i = 0; i < Model.Passengers.Count; i++)
+    {
+        <div class="card">
+            <div class="text-large">Passenger @(i + 1) (@Model.Passengers[i].AgeBracket.ToString())</div>
+            <div class="passenger-grid-container">
+                <div class="passenger-input-group">
+                    <div class="label-input">First Name:</div>
+                    <input type="text" asp-for="Passengers[i].FirstName" class="text-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Address:</div>
+                    <input type="text" asp-for="Passengers[i].AddressLineOne" class="text-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Last Name:</div>
+                    <input type="text" asp-for="Passengers[i].LastName" class="text-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Address (line two):</div>
+                    <input type="text" asp-for="Passengers[i].AddressLineTwo" class="text-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Nationality:</div>
+                    <select asp-for="Passengers[i].NationalityId">
+                        @foreach (NationalityDto n in Model.Nationalities)
+                        {
+                            <option value="@n.NationalityId">@n.CountryName</option>
+                        }
+                    </select>
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">City:</div>
+                    <input type="text" asp-for="Passengers[i].City" class="text-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Date of Birth:</div>
+                    <input type="date" asp-for="Passengers[i].DateOfBirth" class="date-input" />
+                </div>
+                <div class="passenger-input-group">
+                    <div class="label-input">Country:</div>
+                    <input type="text" asp-for="Passengers[i].Country" class="text-input" />
+                </div>
+            </div>
+        </div>
+    }
+</form>

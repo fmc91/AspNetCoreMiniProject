@@ -28,6 +28,6 @@ namespace RightFlightWeb.Models
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
-        public List<FlightSearchResult> SearchResults { get; set; }
+        public List<FlightInformation> SearchResults { get; set; }
     }
 }
