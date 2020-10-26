@@ -15,9 +15,12 @@ namespace RightFlightWeb.Controllers
     {
         private readonly FlightReservationContext _db;
 
-        public FlightsController(FlightReservationContext context)
+        private readonly FlightInformationService _flightInformationService;
+
+        public FlightsController(FlightReservationContext context, FlightInformationService flightInformationService)
         {
             _db = context;
+            _flightInformationService = flightInformationService;
         }
 
         public IActionResult Search()
@@ -42,29 +45,7 @@ namespace RightFlightWeb.Controllers
                 RedirectToAction("Search");
             }
 
-            List<FlightInformation> searchResults = await
-                _db.Flight
-                .Where(f =>
-                    f.RouteAircraft.Route.OriginAirportCode == originCode &&
-                    f.RouteAircraft.Route.DestinationAirportCode == destinationCode &&
-                    f.ScheduledDeparture.Date == date)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Airline)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Aircraft)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Origin)
-                    .ThenInclude(o => o.City)
-                    .ThenInclude(c => c.Country)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Destination)
-                    .ThenInclude(d => d.City)
-                    .ThenInclude(c => c.Country)
-                .Select(f => FlightInformationService.GetFlightInformation(f, adults, children, infants))
-                .ToListAsync();
+            List<FlightInformation> searchResults = await _flightInformationService.SearchAsync(originCode, destinationCode, adults, children, infants, date);
 
             FlightSearchViewModel viewModel = new FlightSearchViewModel
             {
@@ -80,29 +61,10 @@ namespace RightFlightWeb.Controllers
 
         public async Task<IActionResult> Book(int flightId, string travelClassCode, int adults, int children, int infants)
         {
-            if (!FlightExists(flightId))
+            if (!await _flightInformationService.FlightExistsAsync(flightId))
                 return NotFound();
 
-            FlightInformation flightInformation = await
-                _db.Flight
-                .Where(f => f.FlightId == flightId)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Airline)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Aircraft)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Origin)
-                    .ThenInclude(o => o.City)
-                    .ThenInclude(c => c.Country)
-                .Include(f => f.RouteAircraft)
-                    .ThenInclude(ra => ra.Route)
-                    .ThenInclude(r => r.Destination)
-                    .ThenInclude(d => d.City)
-                    .ThenInclude(c => c.Country)
-                .Select(f => FlightInformationService.GetFlightInformation(f, adults, children, infants))
-                .SingleAsync();
+            FlightInformation flightInformation = await _flightInformationService.GetByIdAsync(flightId, adults, children, infants);
 
             TravelClassDto travelClass = await
                 _db.TravelClass
@@ -135,9 +97,6 @@ namespace RightFlightWeb.Controllers
             return View(viewModel);
         }
 
-        private bool FlightExists(int flightId)
-        {
-            return _db.Flight.Find(flightId) != null;
-        }
+        
     }
 }
