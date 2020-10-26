@@ -42,7 +42,7 @@ namespace RightFlightWeb.Controllers
         {
             if (!ModelState.IsValid)
             {
-                RedirectToAction("Search");
+                return NotFound();
             }
 
             List<FlightInformation> searchResults = await _flightInformationService.SearchAsync(originCode, destinationCode, adults, children, infants, date);

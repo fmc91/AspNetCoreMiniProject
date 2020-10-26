@@ -1,6 +1,6 @@
 ﻿@model RightFlightWeb.Models.FlightSearchViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Search for flights";
 }
 
@@ -113,4 +113,7 @@
     </div>
 }
 
-<script src="~/scripts/flights.js"></script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/scripts/flights.js"></script>
+}
