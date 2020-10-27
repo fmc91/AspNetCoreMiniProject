@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace RightFlightWeb.EntityModel
+namespace RightFlightWeb.Data
 {
     public partial class FlightReservationContext : DbContext
     {

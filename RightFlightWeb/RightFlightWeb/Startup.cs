@@ -10,7 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using RightFlightWeb.EntityModel;
+using RightFlightWeb.Data;
 using RightFlightWeb.Services;
 
 namespace RightFlightWeb
@@ -28,6 +28,7 @@ namespace RightFlightWeb
         {
             services.AddDbContext<FlightReservationContext>();
             services.AddScoped<FlightInformationService>();
+            services.AddScoped<PassengerInformationService>();
             services.AddMvc();
         }
 

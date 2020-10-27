@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace RightFlightWeb.EntityModel
+namespace RightFlightWeb.Data
 {
     public partial class Route
     {

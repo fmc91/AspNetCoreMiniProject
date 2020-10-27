@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using RightFlightWeb.EntityModel;
+using RightFlightWeb.Data;
 using RightFlightWeb.Models;
 using RightFlightWeb.Services;
 using Newtonsoft.Json;

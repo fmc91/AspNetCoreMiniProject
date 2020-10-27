@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using RightFlightWeb.EntityModel;
 using RightFlightWeb.Models;
 using RightFlightWeb.Services;
 
@@ -13,14 +9,14 @@ namespace RightFlightWeb.Controllers
 {
     public class FlightsController : Controller
     {
-        private readonly FlightReservationContext _db;
+        private readonly FlightInformationService _flightInfoService;
 
-        private readonly FlightInformationService _flightInformationService;
+        private readonly PassengerInformationService _passengerInfoService;
 
-        public FlightsController(FlightReservationContext context, FlightInformationService flightInformationService)
+        public FlightsController(FlightInformationService flightInfoService, PassengerInformationService passengerInfoService)
         {
-            _db = context;
-            _flightInformationService = flightInformationService;
+            _flightInfoService = flightInfoService;
+            _passengerInfoService = passengerInfoService;
         }
 
         public IActionResult Search()
@@ -45,7 +41,7 @@ namespace RightFlightWeb.Controllers
                 return NotFound();
             }
 
-            List<FlightInformation> searchResults = await _flightInformationService.SearchAsync(originCode, destinationCode, adults, children, infants, date);
+            List<FlightInformation> searchResults = await _flightInfoService.FlightSearchAsync(originCode, destinationCode, adults, children, infants, date);
 
             FlightSearchViewModel viewModel = new FlightSearchViewModel
             {
@@ -61,21 +57,14 @@ namespace RightFlightWeb.Controllers
 
         public async Task<IActionResult> Book(int flightId, string travelClassCode, int adults, int children, int infants)
         {
-            if (!await _flightInformationService.FlightExistsAsync(flightId))
+            if (!await _flightInfoService.FlightExistsAsync(flightId))
                 return NotFound();
 
-            FlightInformation flightInformation = await _flightInformationService.GetByIdAsync(flightId, adults, children, infants);
+            FlightInformation flightInformation = await _flightInfoService.GetFlightByIdAsync(flightId, adults, children, infants);
 
-            TravelClassDto travelClass = await
-                _db.TravelClass
-                .Where(tc => tc.TravelClassCode == travelClassCode)
-                .Select(tc => Mapper.TravelClassToDto(tc))
-                .SingleAsync();
+            TravelClassDto travelClass = await _flightInfoService.GetTravelClassByCodeAsync(travelClassCode);
 
-            List<NationalityDto> nationalities = await
-                _db.Nationality
-                .Select(n => Mapper.NationalityToDto(n))
-                .ToListAsync();
+            List<NationalityDto> nationalities = await _passengerInfoService.GetNationalitiesAsync();
 
             BookFlightViewModel viewModel = new BookFlightViewModel
             {
@@ -96,7 +85,5 @@ namespace RightFlightWeb.Controllers
 
             return View(viewModel);
         }
-
-        
     }
 }

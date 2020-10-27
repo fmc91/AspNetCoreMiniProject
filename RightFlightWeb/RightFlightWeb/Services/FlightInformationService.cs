@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using RightFlightWeb.EntityModel;
+using RightFlightWeb.Data;
 using RightFlightWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -41,7 +41,7 @@ namespace RightFlightWeb.Services
             return (await _db.Flight.FindAsync(flightId)) != null;
         }
 
-        public async Task<List<FlightInformation>> SearchAsync(string originCode, string destinationCode, int adults, int children, int infants, DateTime date)
+        public async Task<List<FlightInformation>> FlightSearchAsync(string originCode, string destinationCode, int adults, int children, int infants, DateTime date)
         {
             return await FlightQuery
                 .Where(f =>
@@ -52,11 +52,19 @@ namespace RightFlightWeb.Services
                 .ToListAsync();
         }
 
-        public async Task<FlightInformation> GetByIdAsync(int flightId, int adults, int children, int infants)
+        public async Task<FlightInformation> GetFlightByIdAsync(int flightId, int adults, int children, int infants)
         {
             return await FlightQuery
                 .Where(f => f.FlightId == flightId)
                 .Select(f => GenerateFlightInformation(f, adults, children, infants))
+                .SingleAsync();
+        }
+
+        public async Task<TravelClassDto> GetTravelClassByCodeAsync(string travelClassCode)
+        {
+            return await _db.TravelClass
+                .Where(tc => tc.TravelClassCode == travelClassCode)
+                .Select(tc => Mapper.TravelClassToDto(tc))
                 .SingleAsync();
         }
 
